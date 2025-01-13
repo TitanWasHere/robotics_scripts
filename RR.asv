@@ -1,0 +1,20 @@
+syms l1 l2 q1 q2
+
+p = [
+    l1 * cos(q1) + l2 * cos(q1+q2);
+    l1 * sin(q1) + l2 * sin(q1+q2);
+];
+
+J = jacobian(p, [q1,q2]);
+detJ = det(J);
+simplify(detJ);
+p = subs(p, [l1,l2], [1,1]);
+
+p_i = [0.6, -0.4];
+p_f = [1,1];
+
+i_c2 = (p_i(1) ^ 2 + p_i(2) ^ 2 - 2) / 2;
+i_s2 = sqrt(1-i_c2);
+i_q2 = atan2(i_s2, i_c2)
+
+i_q1 = atan2(p_i(2), p(1))
