@@ -1,4 +1,4 @@
-function [q_out, guesses, cartesian_errors] = gradient(q_in, desired_point, f_r, initial_guess, max_iterations, max_cartesian_error, learning_rate, min_joint_increment, max_closeness_singularity)
+function [q_out, guesses, cartesian_errors] = gradient_method(q_in, desired_point, f_r, initial_guess, max_iterations, max_cartesian_error, learning_rate, min_joint_increment, max_closeness_singularity)
 % [q_out, guesses, cartesian_errors] = gradient_method(q_in, desired_point, f_r, 
 %  initial_guess, max_iterations, max_cartesian_error, learning_rate, 
 %  min_joint_increment, max_closeness_singularity) takes as inputs:
@@ -72,4 +72,9 @@ function [q_out, guesses, cartesian_errors] = gradient(q_in, desired_point, f_r,
     guesses = guesses(1:i, :);
     cartesian_errors = cartesian_errors(1:i);
     q_out = guess;
+    
+    % If the loop finishes without reaching the specified error tolerance, notify that the algorithm did not converge
+    if cartesian_errors(i) >= max_cartesian_error
+        fprintf("The algorithm did not converge within the specified number of iterations.\n");
+    end
 end

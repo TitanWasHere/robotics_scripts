@@ -54,6 +54,7 @@ function [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, i
         % Compute Cartesian error
         error = norm(desired_point - subs(f_r, q_in, guess));
         cartesian_errors(i) = error;
+        
         if error < max_cartesian_error
             fprintf("Finished at iteration %d because the error was lower than the specified amount.\n", i);
             break
@@ -89,4 +90,9 @@ function [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, i
     guesses = guesses(1:i, :);
     cartesian_errors = cartesian_errors(1:i);
     q_out = guess;
+    
+    % If the loop finishes without reaching the specified error tolerance, notify that the algorithm did not converge
+    if cartesian_errors(i) >= max_cartesian_error
+        fprintf("The algorithm did not converge within the specified number of iterations.\n");
+    end
 end
