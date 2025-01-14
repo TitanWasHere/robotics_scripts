@@ -16,11 +16,15 @@ function[singularity_values] = singularities(J, joints)
     dim_null = n_col - rank(Js);
     display(dim_null)
 
-    % null space
+    % null space --> vel. ai joint che danno vel 0 all'ee
     null_space = simplify(null(Js));
     display(null_space);
 
-    % dim. of null space:
-    dim_null = n_col - rank(Js);
+    % dim. of range space:
+    dim_range = rank(Js);
+    display(dim_range);
+
+    % TO FIND RANGE SPACE: TAKE THE 'dim_range' ROWS MORE CONVENIENT AND WE
+    % PUT THEM INTO THE RANGE SPACE (maybe with R(J) = span { (...), (...)}
 
 end
