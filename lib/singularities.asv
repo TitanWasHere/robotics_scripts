@@ -7,13 +7,14 @@ function[singularity_values] = singularities(J, joints)
 
     det_J = simplify(det(J));
 
-    fprintf("[det]: %s", det_J);
+    fprintf("[det]: %s\n", det_J);
     
     % es.
     Js = subs(J, q3, 0);
     
-    % dim. of null space:
+    % dim. of null space
     dim_null = n_col - rank(Js);
+    fprintf("[dim_]")
     display(dim_null)
 
     % null space --> vel. ai joint che danno vel 0 all'ee
@@ -26,5 +27,5 @@ function[singularity_values] = singularities(J, joints)
 
     % TO FIND RANGE SPACE: TAKE THE 'dim_range' ROWS MORE CONVENIENT AND WE
     % PUT THEM INTO THE RANGE SPACE (maybe with R(J) = span { (...), (...)}
-
+    % --> vel. che vengono mandate dai joint all'ee
 end
