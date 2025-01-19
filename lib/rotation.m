@@ -1,6 +1,7 @@
 syms alpha beta gamma 
 
 
+RotX(alpha) * RotY(beta) * [0;0;1]
 
 %Ri = [
 %    0,0,1;

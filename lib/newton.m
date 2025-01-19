@@ -84,6 +84,9 @@ function [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, i
         end
         
         guess = eval(new_guess);
+        fprintf("[q_%d]: \n", i)
+        display(guess)
+        fprintf("[error]: %d \n", cartesian_errors(i))
     end
     
     % Trim outputs

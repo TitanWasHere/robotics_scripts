@@ -6,22 +6,27 @@ function[Js] = singularities(J, joints)
         det_J = simplify(det(J_new));
         fprintf("[det]: %s\n", det_J);
         if det_J == 0
-            J_new = transpose(J) * J
+            J_new = transpose(J) * J; % if 0 then transpose(J)*J
             det_J = simplify(det(J_new));
             fprintf("[det]: %s\n", det_J);
         end
+    else
+        det_J = simplify(det(J));
+        fprintf("[det]: %s\n", det_J);
     end
 
     
-    
+    fprintf("NOW YOU SHOULD MODIFY IN ORDER TO SUBSTITUTE TO THE JOINT ITS SINGULARITY")
     pause
     % es.
-    Js = subs(J, joints(2), 0);
+    Js = subs(J, [joints(2), joints(3)], [pi/2,pi/2]);
     display(Js)
     
     % dim. of null space
     dim_null = n_col - rank(Js);
-    fprintf("[dim_null]: %d\n", dim_null)
+    fprintf("[n]: %d\n", n_col);
+    fprintf("[rank]: %d\n", rank(Js))
+    fprintf("[dim_null]: rank-n = %d\n", dim_null)
 
     % null space --> vel. ai joint che danno vel 0 all'ee
     null_space = simplify(null(Js));
