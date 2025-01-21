@@ -19,7 +19,7 @@ function[Js] = singularities(J, joints)
     fprintf("NOW YOU SHOULD MODIFY IN ORDER TO SUBSTITUTE TO THE JOINT ITS SINGULARITY")
     pause
     % es.
-    Js = subs(J, [joints(1),joints(2), joints(3)], [0,pi/2,pi/2]);
+    Js = subs(J, [joints(2), joints(3)], [pi/2,pi/2]);
     display(Js)
     
     % dim. of null space
