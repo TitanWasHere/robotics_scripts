@@ -36,6 +36,8 @@ function[Js] = singularities(J, joints)
     % dim. of range space:
     dim_range = rank(Js);
     display(dim_range);
+    fprintf("[RANGE SPACE]:")
+    display(orth(Js))
 
     % TO FIND RANGE SPACE: TAKE THE 'dim_range' COLS MORE CONVENIENT AND WE
     % PUT THEM INTO THE RANGE SPACE (maybe with R(J) = span { (...), (...)}
