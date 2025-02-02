@@ -1,50 +1,41 @@
 function cubicTrajectory(q_i, q_f, t_i, t_f, v_i, v_f)
-    % cubicTrajectory - Computes and plots a cubic trajectory for a robot joint.
+    % cubicTrajectory - Computes and plots a cubic trajectory for multiple robot joints.
     %
     % Syntax: cubicTrajectory(q_i, q_f, t_i, t_f, v_i, v_f)
     %
     % Inputs:
-    %   q_i  - Initial joint position (e.g., in radians or degrees)
-    %   q_f  - Final joint position
+    %   q_i  - Initial joint positions (vector)
+    %   q_f  - Final joint positions (vector)
     %   t_i  - Initial time (seconds)
     %   t_f  - Final time (seconds)
-    %   v_i  - Initial joint velocity
-    %   v_f  - Final joint velocity
+    %   v_i  - Initial joint velocities (vector)
+    %   v_f  - Final joint velocities (vector)
     %
     % Outputs:
-    %   Plots of position, velocity, and acceleration profiles.
+    %   Plots of position, velocity, and acceleration profiles for each joint.
+    %   Displays the maximum velocity for each joint.
     %
     % Example:
-    %   cubicTrajectory(0, 1, 0, 2, 0, 0.5);
+    %   cubicTrajectory([0, 0], [1, 1], 0, 2, [0, 0], [0.5, 0.5]);
 
     %% Parameters
     T = t_f - t_i; % Total duration
     Delta_q = q_f - q_i;
+    numJoints = length(q_i);
 
     %% Determine the cubic coefficients
-    % We assume a cubic polynomial of the form:
-    %   q(t) = a0 + a1*(t-t_i) + a2*(t-t_i)^2 + a3*(t-t_i)^3
-    % Boundary conditions:
-    %   q(t_i)   = q_i   ->  a0 = q_i
-    %   qdot(t_i)= v_i   ->  a1 = v_i
-    %   q(t_f)   = q_f   ->  q_i + v_i*T + a2*T^2 + a3*T^3 = q_f
-    %   qdot(t_f)= v_f   ->  v_i + 2*a2*T + 3*a3*T^2 = v_f
-
-    % Solving these gives:
     a0 = q_i;
     a1 = v_i;
-    a3 = (v_f - v_i - 2*Delta_q/T) / T^2;
-    a2 = (3*Delta_q/T - 2*v_i - v_f) / T;
+    a3 = (v_f - v_i - 2 .* Delta_q / T) ./ T^2;
+    a2 = (3 .* Delta_q / T - 2 .* v_i - v_f) ./ T;
 
     %% Define the symbolic variable and expressions
     syms t real
     tau = t - t_i;  % time shift so that tau=0 corresponds to t_i
 
-    % Position
+    % Position, Velocity, and Acceleration expressions for each joint
     q_sym = a0 + a1*tau + a2*tau^2 + a3*tau^3;
-    % Velocity (first derivative)
     qd_sym = diff(q_sym, t);
-    % Acceleration (second derivative)
     qdd_sym = diff(qd_sym, t);
 
     %% Convert symbolic expressions to MATLAB functions for evaluation
@@ -57,38 +48,47 @@ function cubicTrajectory(q_i, q_f, t_i, t_f, v_i, v_f)
     time_vec = linspace(t_i, t_f, numPoints);
 
     %% Evaluate the profiles
-    q_vals   = q_fun(time_vec);
-    qd_vals  = qd_fun(time_vec);
-    qdd_vals = qdd_fun(time_vec);
+    q_vals   = arrayfun(q_fun, time_vec, 'UniformOutput', false);
+    qd_vals  = arrayfun(qd_fun, time_vec, 'UniformOutput', false);
+    qdd_vals = arrayfun(qdd_fun, time_vec, 'UniformOutput', false);
+    q_vals   = cell2mat(q_vals');
+    qd_vals  = cell2mat(qd_vals');
+    qdd_vals = cell2mat(qdd_vals');
+
+    %% Compute and display maximum velocity for each joint
+    max_velocity = max(abs(qd_vals));
+    disp('Maximum velocity for each joint:');
+    disp(max_velocity);
 
     %% Plot the results
     figure;
+    for j = 1:numJoints
+        subplot(3, numJoints, j);
+        plot(time_vec, q_vals(:, j), 'b', 'LineWidth', 2);
+        grid on;
+        xlabel('Time (s)');
+        ylabel(['Position Joint ', num2str(j)]);
+        title(['Joint ', num2str(j), ' Position Profile']);
+        set(gca, 'FontSize', 12);
 
-    subplot(3,1,1);
-    plot(time_vec, q_vals, 'b', 'LineWidth', 2);
-    grid on;
-    xlabel('Time (s)');
-    ylabel('Position');
-    title('Joint Position Profile');
-    set(gca, 'FontSize', 12);
+        subplot(3, numJoints, j + numJoints);
+        plot(time_vec, qd_vals(:, j), 'r', 'LineWidth', 2);
+        grid on;
+        xlabel('Time (s)');
+        ylabel(['Velocity Joint ', num2str(j)]);
+        title(['Joint ', num2str(j), ' Velocity Profile']);
+        set(gca, 'FontSize', 12);
 
-    subplot(3,1,2);
-    plot(time_vec, qd_vals, 'r', 'LineWidth', 2);
-    grid on;
-    xlabel('Time (s)');
-    ylabel('Velocity');
-    title('Joint Velocity Profile');
-    set(gca, 'FontSize', 12);
+        subplot(3, numJoints, j + 2*numJoints);
+        plot(time_vec, qdd_vals(:, j), 'k', 'LineWidth', 2);
+        grid on;
+        xlabel('Time (s)');
+        ylabel(['Acceleration Joint ', num2str(j)]);
+        title(['Joint ', num2str(j), ' Acceleration Profile']);
+        set(gca, 'FontSize', 12);
+    end
 
-    subplot(3,1,3);
-    plot(time_vec, qdd_vals, 'k', 'LineWidth', 2);
-    grid on;
-    xlabel('Time (s)');
-    ylabel('Acceleration');
-    title('Joint Acceleration Profile');
-    set(gca, 'FontSize', 12);
-
-    set(gcf, 'Position', [100, 100, 600, 800]); % Increase figure height
+    set(gcf, 'Position', [100, 100, 1200, 800]); % Increase figure width for multiple joints
 
     %% Display the evaluated expressions (optional)
     disp('Position q(t):');
