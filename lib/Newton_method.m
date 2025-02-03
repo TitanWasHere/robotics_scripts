@@ -1,4 +1,5 @@
 function[q,varargout]=Newton_method(q0,J,pd,p,eps,n_iter_max,varargin)
+% DAVIDE'S SCRIPT!
 % this function uses the Newton algorithm to estimate q_k which realise the
 % inverse kinematics, i.e. finding the variables q1,q2...,qn that realize a
 % desired pose p_d of the end-effector, given of course the direct 

@@ -1,4 +1,5 @@
 function[T]=T_phi_RPY(axes,angles)
+% input: axes i.e. ["X", "Y", "Z"]
 % given a sequence of rotations (RPY!!!) and their corresponding 
 % angles, this function computes the matrix T(Φ) needed to the computation 
 % of ω, through :    ω = T(Φ)*Φ_dot
@@ -17,10 +18,10 @@ for i=1:3
             switch i
                 case 1
                     T1 = [1 0 0]';
-                    R1=element_Rot(sym(x),s(i));
+                    R1=RotX(s(i));
                 case 2
                     T2 = R1(:,1);
-                    R2=R1*element_Rot(sym(x),s(i));
+                    R2=R1*RotX(s(i));
                 case 3
                     T3 = R2(:,1);
             end
@@ -29,10 +30,10 @@ for i=1:3
            switch i
                case 1 
                     T1 = [0 1 0]';
-                    R1=element_Rot(sym(y),s(i));
+                    R1=RotY(s(i));
                case 2
                     T2 = R1(:,2);
-                    R2=R1*element_Rot(sym(y),s(i));
+                    R2=R1*RotY(s(i));
                case 3
                     T3 = R2(:,2);
             end
@@ -42,10 +43,10 @@ for i=1:3
             switch i
                 case 1
                     T1 = [0 0 1]';
-                    R1=element_Rot(sym(z),s(i));
+                    R1=RotZ(s(i));
                 case 2
                     T2 = R1(:,3);
-                    R2=R1*element_Rot(sym(z),s(i));
+                    R2=R1*RotZ(s(i));
                 case 3
                     T3 = R2(:,3);
             end

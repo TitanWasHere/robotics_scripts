@@ -16,11 +16,11 @@ for i=1:3
             
             if i==1 
                 T = [1 0 0]';
-                R1=element_Rot(sym(x),angles(i));
+                R1=RotX(angles(i));
             end
             if i==2
                 T2 = R1(:,1);
-                R2=R1*element_Rot(sym(x),angles(i));
+                R2=R1*RotX(angles(i));
             end
             if i==3
                 T3 = R2(:,1);
@@ -30,11 +30,11 @@ for i=1:3
 
             if i==1 
                 T = [0 1 0]';
-                R1=element_Rot(sym(y),angles(i));
+                R1=RotY(angles(i));
             end
             if i==2
                 T2 = R1(:,2);
-                R2=R1*element_Rot(sym(y),angles(i));
+                R2=R1*RotY(RotY,angles(i));
             end
             if i==3
                 T3 = R2(:,2);
@@ -43,11 +43,11 @@ for i=1:3
         case {"z", "Z"}
             if i==1
                 T= [0 0 1]';
-                R1=element_Rot(sym(z),angles(i));
+                R1=RotZ(angles(i));
             end
             if i==2
                 T2 = R1(:,3);
-                R2=R1*element_Rot(sym(z),angles(i));
+                R2=R1*RotZ(angles(i));
             end
             if i==3
                 T3 = R2(:,3);
