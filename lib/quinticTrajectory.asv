@@ -107,9 +107,9 @@ function quinticTrajectory(q_i, q_f, t_i, t_f, v_i, v_f, a_i, a_f)
 
     %% Display the evaluated expressions (optional)
     disp('Position q(t):');
-    disp(vpa(simplify(q_sym), 4));
+    disp(simplify(vpa(q_sym, 6)));
     disp('Velocity qdot(t):');
-    disp(vpa(simplify(qd_sym), 4));
+    disp(vpa(qd_sym, 6));
     disp('Acceleration qddot(t):');
-    disp(vpa(simplify(qdd_sym), 4));
+    disp(vpa(qdd_sym, 6));
 end
