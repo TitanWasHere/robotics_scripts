@@ -55,10 +55,18 @@ function cubicTrajectory(q_i, q_f, t_i, t_f, v_i, v_f)
     qd_vals  = cell2mat(qd_vals');
     qdd_vals = cell2mat(qdd_vals');
 
-    %% Compute and display maximum velocity for each joint
-    max_velocity = max(abs(qd_vals));
+
+    %% Compute and display maximum velocity and corresponding time for each joint
+    max_velocity = zeros(1, numJoints);
+    time_of_max_velocity = zeros(1, numJoints);
+    for j = 1:numJoints
+        [max_velocity(j), idx] = max(abs(qd_vals(:, j)));
+        time_of_max_velocity(j) = time_vec(idx);
+    end
     disp('Maximum velocity for each joint:');
     disp(max_velocity);
+    disp('Time at which maximum velocity is reached for each joint:');
+    disp(time_of_max_velocity);
 
     %% Plot the results
     figure;
