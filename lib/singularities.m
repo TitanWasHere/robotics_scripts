@@ -19,7 +19,7 @@ function[Js] = singularities(J, joints)
     fprintf("NOW YOU SHOULD MODIFY IN ORDER TO SUBSTITUTE TO THE JOINT ITS SINGULARITY")
     pause
     % es.
-    Js = subs(J, [joints(2), joints(3)], [pi/2,pi/2]);
+    Js = subs(J, [joints(2)], [pi/2]);
     display(Js)
     
     % dim. of null space
@@ -38,7 +38,7 @@ function[Js] = singularities(J, joints)
     display(dim_range);
     fprintf("[RANGE SPACE]:")
     display(orth(Js))
-
+    
     % TO FIND RANGE SPACE: TAKE THE 'dim_range' COLS MORE CONVENIENT AND WE
     % PUT THEM INTO THE RANGE SPACE (maybe with R(J) = span { (...), (...)}
     % --> vel. che vengono mandate dai joint all'ee

@@ -1,39 +1,39 @@
-% Clear workspace
-clear variables;
-clc;
+% % Clear workspace
+% clear variables;
+% clc;
+% 
+% % Define the rotation matrix R
+% R = [
+%     0.7500,    0.6124,   -0.2500;
+%    -0.2500,    0.6124,    0.7500;
+%     0.6124,   -0.5000,    0.6124;
+% ];
+% 
+% % Call the function to get the axis and angles
+% [r_1, r_2, theta_1, theta_2] = inverseRotationMatrix(R);
+% 
+% % Display the results
+% fprintf("First solution:\n");
+% fprintf("r_1: \n");
+% disp(r_1);
+% fprintf("theta_1: %.2f radians\n", theta_1);
+% fprintf("theta_1: %.2f*PI \n", theta_1/pi);
+% fprintf("theta_1: %.2f degrees\n", theta_1*180/pi)
+% 
+% fprintf("\nSecond solution (opposite):\n");
+% fprintf("r_2: \n");
+% disp(r_2);
+% fprintf("theta_2: %.2f radians\n", theta_2);
+% fprintf("theta_2: %.2f*PI \n", theta_2/pi);
+% fprintf("theta_2: %.2f degrees\n", theta_2*180/pi)
+% 
+% [V, Eig] = eig(R);
+% fprintf("\n\nEigenvalues of R:\n");
+% disp(diag(Eig));
+% fprintf("Eigenvectors of R:\n");
+% disp(V);
 
-% Define the rotation matrix R
-R = [
-    0.7500,    0.6124,   -0.2500;
-   -0.2500,    0.6124,    0.7500;
-    0.6124,   -0.5000,    0.6124;
-];
-
-% Call the function to get the axis and angles
-[r_1, r_2, theta_1, theta_2] = inverseRotationMatrix(R);
-
-% Display the results
-fprintf("First solution:\n");
-fprintf("r_1: \n");
-disp(r_1);
-fprintf("theta_1: %.2f radians\n", theta_1);
-fprintf("theta_1: %.2f*PI \n", theta_1/pi);
-fprintf("theta_1: %.2f degrees\n", theta_1*180/pi)
-
-fprintf("\nSecond solution (opposite):\n");
-fprintf("r_2: \n");
-disp(r_2);
-fprintf("theta_2: %.2f radians\n", theta_2);
-fprintf("theta_2: %.2f*PI \n", theta_2/pi);
-fprintf("theta_2: %.2f degrees\n", theta_2*180/pi)
-
-[V, Eig] = eig(R);
-fprintf("\n\nEigenvalues of R:\n");
-disp(diag(Eig));
-fprintf("Eigenvectors of R:\n");
-disp(V);
-
-function [r_1, r_2, theta_1, theta_2] = inverseRotationMatrix(R)
+function [r_1, r_2, theta_1, theta_2] = rot_vec_inv(R)
     % This function computes the axis r and angles theta from a given 
     % rotation matrix R using the inverse of Rodrigues' rotation formula.
     %
