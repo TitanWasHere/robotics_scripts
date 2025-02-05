@@ -1,0 +1,37 @@
+function [sol] = eq_solver(q_i, q_f, q_i_dot, q_f_dot)
+    % Define symbolic variables
+    syms a0 a1 a2 a3 s
+    
+    % Define polynomial equations
+    q_s = a0 + a1 * s + a2 * s^2 + a3 * s^3;
+    q_s_derivative = diff(q_s, s);
+    
+    % Define boundary conditions
+    eq1 = subs(q_s, s, 0) == q_i;
+    eq2 = subs(q_s, s, 1) == q_f;
+    eq3 = subs(q_s_derivative, s, 0) == q_i_dot;
+    eq4 = subs(q_s_derivative, s, 1) == q_f_dot;
+
+    % Solve for coefficients
+    solution = solve([eq1, eq2, eq3, eq4], [a0, a1, a2, a3]);
+    
+    % Substitute coefficients into the polynomial equation
+    sol = subs(q_s, [a0, a1, a2, a3], [solution.a0, solution.a1, solution.a2, solution.a3]);
+    
+    % Display results
+    disp('Solution for coefficients:');
+    disp(['a0 = ', char(solution.a0)]);
+    disp(['a1 = ', char(solution.a1)]);
+    disp(['a2 = ', char(solution.a2)]);
+    disp(['a3 = ', char(solution.a3)]);
+    
+    fprintf('\nSolution:\n q(s) = %s\n', char(sol));
+    
+    if nargv < 
+    % Plot the trajectory
+    fplot(matlabFunction(sol), [0, 1], 'LineWidth', 2);
+    xlabel('s');
+    ylabel('q(s)');
+    title('Path Trajectory from s=0 to s=1');
+    grid on;
+end

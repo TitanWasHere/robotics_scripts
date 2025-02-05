@@ -31,9 +31,9 @@ classdef robot_planar_2R
             d=[0 0];
             theta=[self.q1 self.q2];
 
-            self.dhtable=[alpha',a',d',theta'];
+            self.dhtable=[theta',alpha',a',d'];
             
-            [self.T, A] = DHMatrix(self.dhtable);
+            [self.T, A] = DH_HTM(self.dhtable, "r");
             self.A0_1=A{1};
             self.A1_2=A{2};
         end
