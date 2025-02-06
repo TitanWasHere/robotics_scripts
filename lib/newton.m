@@ -2,7 +2,7 @@ function [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, i
 % [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, 
 %  initial_guess, max_iterations, max_cartesian_error, min_joint_increment, 
 %  max_closeness_singularity) takes as inputs:
-%   -q_in: The variables of the joints, e.g. [q1;q2; q3; q4]
+%   -q_in: The variables of the joints, e.g. [q1;q2; q3; q4] (symbolic)
 %   -desired_point: the configuration we wish to reach
 %   -f_r: The mapping from joints to points
 %   -initial_guess: Initial configuration of joints
@@ -56,7 +56,7 @@ function [q_out, guesses, cartesian_errors] = newton(q_in, desired_point, f_r, i
         cartesian_errors(i) = error;
         
         if error < max_cartesian_error
-            fprintf("Finished at iteration %d because the error was lower than the specified amount.\n", i);
+            fprintf("Finished at iteration %d because the error was lower than the specified amount.\n", i-1);
             break
         end
         
