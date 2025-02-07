@@ -19,10 +19,10 @@ function [q_out, guesses, cartesian_errors] = gradient_method(q_in, desired_poin
 %   -cartesian_errors: The history of errors
 
     % Set default values if optional arguments are not provided
-    if nargin < 7
+    if nargin < 8
         min_joint_increment = 1e-5;
     end
-    if nargin < 8
+    if nargin < 9
         max_closeness_singularity = 1e-4;
     end
     
